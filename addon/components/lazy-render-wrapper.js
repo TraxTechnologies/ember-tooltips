@@ -42,7 +42,7 @@ const PASSABLE_PROPERTIES = [
   'side',
   'showOn',
   'spacing',
-  'isEnabled',
+  'isDisabled',
   'isShown',
   'tooltipIsVisible',
   'hideDelay',
@@ -169,16 +169,16 @@ export default Component.extend({
     return $target;
   }),
 
-  _shouldRender: computed('isEnabled', 'isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
+  _shouldRender: computed('isDisabled', 'isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
 
-    /* If isEnabled, isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
+    /* If isDisabled, isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
     we return true and set _hasRendered to true because
     there is never a scenario where this wrapper should destroy the tooltip
     */
 
     if (this.get('_hasRendered')) {
       return true;
-    } else if (this.get('isEnabled') && (this.get('isShown') || this.get('tooltipIsVisible'))) {
+    } else if (!this.get('isDisabled') && (this.get('isShown') || this.get('tooltipIsVisible'))) {
 
       this.set('_hasRendered', true);
 
@@ -188,7 +188,7 @@ export default Component.extend({
       this.set('_hasRendered', true);
 
       return true;
-    } else if (this.get('isEnabled') && this.get('_hasUserInteracted')) {
+    } else if (!this.get('isDisabled') && this.get('_hasUserInteracted')) {
 
       this.set('_hasRendered', true);
 
