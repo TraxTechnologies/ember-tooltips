@@ -4,4 +4,5 @@ export default PopoverOnElementComponent.extend({
   tetherComponentName: 'tether-popover-on-component',
 
   _shouldTargetGrandparentView: true,
+  delay: 350,
 });

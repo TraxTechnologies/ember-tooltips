@@ -2,4 +2,5 @@ import LazyRenderWrapperComponent from 'ember-tooltips/components/lazy-render-wr
 
 export default LazyRenderWrapperComponent.extend({
   tetherComponentName: 'tether-popover-on-element',
+  delay: 350,
 });
