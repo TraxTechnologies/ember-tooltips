@@ -167,21 +167,29 @@ export default EmberTetherComponent.extend({
 
     switch (side) {
       case 'top':
-        horizontalPosition = defaultPosition;
-        verticalPosition = 'bottom';
-        break;
+        return `bottom ${defaultPosition}`;
       case 'right':
-        horizontalPosition = 'left';
-        verticalPosition = defaultPosition;
-        break;
+        return `${defaultPosition} left`;
       case 'bottom':
-        horizontalPosition = defaultPosition;
-        verticalPosition = 'top';
-        break;
+        return `top ${defaultPosition}`;
       case 'left':
-        horizontalPosition = 'right';
-        verticalPosition = defaultPosition;
-        break;
+        return `${defaultPosition} right`;
+      case 'top left':
+        return 'bottom left';
+      case 'top right':
+        return 'bottom right';
+      case 'bottom left':
+        return 'top left';
+      case 'bottom right':
+        return 'top right';
+      case 'left bottom':
+        return 'right bottom';
+      case 'left top':
+        return 'right top';
+      case 'right bottom':
+        return 'left bottom';
+      case 'right top':
+        return 'left top';
     }
 
     return `${verticalPosition} ${horizontalPosition}`;
@@ -214,12 +222,6 @@ export default EmberTetherComponent.extend({
     return `${classPrefix}-${targetAttachment.replace(' ', ` ${classPrefix}-`)}`;
   }),
 
-  sideIsVertical: computed(function() {
-    const side = this.get('side');
-
-    return side === 'top' || side === 'bottom';
-  }),
-
   target: computed(function() {
     const $element = this.$();
 
@@ -248,10 +250,19 @@ export default EmberTetherComponent.extend({
   targetAttachment: computed(function() {
     const side = this.get('side');
 
-    if (!this.get('sideIsVertical')) {
-      return `center ${side}`;
-    } else {
-      return `${side} center`;
+    switch (side) {
+      case 'top':
+      case 'bottom':
+        return `${side} center`;
+      case 'left':
+      case 'right':
+        return `center ${side}`;
+      default:
+        if (side.startsWith('left') || side.startsWith('right')) {
+          return side.split(' ').reverse().join(' ');
+        }
+
+        return side;
     }
   }),
 
