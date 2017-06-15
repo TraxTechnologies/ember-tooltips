@@ -32,8 +32,6 @@ function cleanNumber(stringOrNumber) {
   return cleanNumber;
 }
 
-const SHOWN_CACHE = {};
-
 export default EmberTetherComponent.extend({
 
   passedPropertiesObject: null,
@@ -145,17 +143,6 @@ export default EmberTetherComponent.extend({
 
     if ($element && $element.attr) {
       $element.attr('aria-hidden', ariaHiddenString);
-    }
-  }),
-
-  cacheAddHandler: observer('isShown', function() {
-    if (this.get('isShown')) {
-      Object.values(SHOWN_CACHE).forEach((tooltip) => {
-        tooltip.hide();
-      });
-      SHOWN_CACHE[Ember.guidFor(this)] = this;
-    } else {
-      delete SHOWN_CACHE[Ember.guidFor(this)];
     }
   }),
 
